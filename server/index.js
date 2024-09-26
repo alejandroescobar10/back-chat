@@ -14,6 +14,11 @@ app.use(
   })
 );
 
+// Prueba de ruta
+app.get("/", (req, res) => {
+  res.send("¡Backend está funcionando!");
+});
+
 // Configurar Socket.io con CORS
 const io = new SocketServer(server, {
   cors: {
@@ -37,5 +42,8 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(4000);
-console.log("Server on port", 4000);
+// Escuchar en el puerto adecuado para Vercel
+const PORT = process.env.PORT || 4000;
+server.listen(PORT, () => {
+  console.log(`Server on port ${PORT}`);
+});
