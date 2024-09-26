@@ -9,7 +9,7 @@ const server = http.createServer(app);
 // Configurar CORS para permitir solicitudes desde el frontend
 app.use(
   cors({
-    origin: "http://localhost:5173", // Permitir solo el frontend (React)
+    origin: "https://front-chat-sage.vercel.app/", // Permitir solo el frontend (React)
     //methods: ["GET", "POST"],
   })
 );
@@ -17,7 +17,7 @@ app.use(
 // Configurar Socket.io con CORS
 const io = new SocketServer(server, {
   cors: {
-    origin: "http://localhost:5173", // Permitir la comunicación desde React
+    origin: "https://front-chat-sage.vercel.app/", // Permitir la comunicación desde React
     methods: ["GET", "POST"],
   },
 });
