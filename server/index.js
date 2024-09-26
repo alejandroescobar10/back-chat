@@ -9,7 +9,7 @@ const server = http.createServer(app);
 // Configurar CORS para permitir solicitudes desde el frontend
 app.use(
   cors({
-    origin: "*", // Permitir solo el frontend (React)
+    origin: "https://front-chat-nine.vercel.app", // Permitir solo el frontend (React)
     //methods: ["GET", "POST"],
   })
 );
@@ -22,7 +22,7 @@ app.get("/", (req, res) => {
 // Configurar Socket.io con CORS
 const io = new SocketServer(server, {
   cors: {
-    origin: "*", // Permitir la comunicación desde React
+    origin: "https://front-chat-nine.vercel.app", // Permitir la comunicación desde React
     methods: ["GET", "POST"],
   },
   transports: ["websocket", "polling"],
