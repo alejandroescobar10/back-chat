@@ -23,7 +23,7 @@ app.get("/", (req, res) => {
 const io = new SocketServer(server, {
   cors: {
     origin: "*", // Permitir la comunicación desde React
-    //methods: ["GET", "POST"],
+    methods: ["GET", "POST"],
   },
   transports: ["websocket", "polling"],
 });
