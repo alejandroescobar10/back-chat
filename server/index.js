@@ -22,7 +22,8 @@ app.get("/", (req, res) => {
 // Configurar Socket.io con CORS
 const io = new SocketServer(server, {
   cors: {
-    origin: "https://front-chat-nine.vercel.app", // Permitir la comunicación desde React
+    origin: "https://front-chat-nine.vercel.app",
+    credentials: true, // Permitir la comunicación desde React
     methods: ["GET", "POST"],
     timeout: 10000,
   },
