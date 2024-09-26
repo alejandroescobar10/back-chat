@@ -23,7 +23,7 @@ app.get("/", (req, res) => {
 const io = new SocketServer(server, {
   cors: {
     origin: "https://front-chat-nine.vercel.app", // Permitir la comunicación desde React
-    methods: ["GET", "POST"],
+    //methods: ["GET", "POST"],
   },
 });
 
