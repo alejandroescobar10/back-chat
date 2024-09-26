@@ -25,6 +25,7 @@ const io = new SocketServer(server, {
     origin: "*", // Permitir la comunicación desde React
     //methods: ["GET", "POST"],
   },
+  transports: ["websocket", "polling"],
 });
 
 //Conexión de clientes
