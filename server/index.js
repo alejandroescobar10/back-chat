@@ -1,52 +1,26 @@
 import express from "express";
-import http from "http";
-import { Server as SocketServer } from "socket.io";
-import cors from "cors";
+import { Realtime } from "ably/promises";
 
 const app = express();
-const server = http.createServer(app);
-
-// Configurar CORS para permitir solicitudes desde el frontend
-app.use(
-  cors({
-    origin: "https://front-chat-nine.vercel.app", // Permitir solo el frontend (React)
-    //methods: ["GET", "POST"],
-  })
-);
-
-// Prueba de ruta
-app.get("/", (req, res) => {
-  res.send("¡Backend está funcionando!");
+const ably = new Realtime({
+  key: "6bgz8Q.pc07CQ:rjC34iblLGHkCAcy4YUVArd0gFn0cg4WKVuXgEKsNR4",
 });
 
-// Configurar Socket.io con CORS
-const io = new SocketServer(server, {
-  cors: {
-    origin: "https://front-chat-nine.vercel.app",
-    credentials: true, // Permitir la comunicación desde React
-    methods: ["GET", "POST"],
-    timeout: 10000,
-  },
-  transports: ["websocket", "polling"],
+app.get("/api/auth", async (req, res) => {
+  const clientId = req.query.clientId;
+
+  try {
+    const tokenRequest = await ably.auth.createTokenRequest({ clientId });
+    res.status(200).json(tokenRequest);
+  } catch (err) {
+    res.status(500).send("Error requesting token: " + err);
+  }
 });
 
-//Conexión de clientes
-io.on("connection", (socket) => {
-  console.log(socket.id); // Verificar la conexión del cliente
-
-  // Escuchar mensajes entrantes
-  socket.on("message", (body) => {
-    console.log(body); // Verificar que el mensaje está siendo recibido
-    // Emitir mensaje a todos los clientes excepto al que lo envió
-    socket.broadcast.emit("message", {
-      body,
-      from: socket.id.slice(6),
-    });
-  });
-});
-
-// Escuchar en el puerto adecuado para Vercel
+// El puerto aquí no se usa en Vercel pero es útil para desarrollo local
 const PORT = process.env.PORT || 4000;
-server.listen(PORT, () => {
-  console.log(`Server on port ${PORT}`);
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
 });
+
+export default app;
